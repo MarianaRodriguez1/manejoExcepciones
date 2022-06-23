@@ -1,6 +1,8 @@
 package com.santander.manejoExcepciones.exception;
 
 import com.santander.manejoExcepciones.dto.ErrorResponse;
+
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -16,12 +18,19 @@ import java.rmi.ServerException;
 import java.rmi.server.ServerNotActiveException;
 import java.time.LocalDate;
 
+
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
 @RestControllerAdvice
 public class ExceptionControllerAdvice {
+
+    private static final Logger logger = LoggerFactory.getLogger(ExceptionControllerAdvice.class);
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(java.io.IOException.class)
     public ErrorResponse handlerException(IOException ioException){
+        logger.info("Input/output exception");
         return new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),ioException.getMessage(), LocalDate.now());
     }
 
@@ -34,6 +43,7 @@ public class ExceptionControllerAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(EOFException.class)
     public ErrorResponse handlerException(EOFException eofException){
+        logger.info("End of file exception");
         return new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),eofException.getMessage(), LocalDate.now());
     }
 
