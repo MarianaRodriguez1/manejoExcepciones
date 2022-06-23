@@ -17,9 +17,8 @@ public class UserController {
     }
 
     @PostMapping("/api/v1/users")
-    //public ResponseEntity<Boolean> newUser(){
     public boolean addUser(UserDto userDto){
-        userService.addUser();
+        userService.addUser(userDto);
         return true;
     }
 }
